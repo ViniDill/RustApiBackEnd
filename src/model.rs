@@ -1,8 +1,9 @@
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 use uuid::Uuid;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, ToSchema)]
 pub struct ClientModel {
     pub id: Uuid,
     pub name: String,
@@ -10,7 +11,7 @@ pub struct ClientModel {
     pub created_at: Option<DateTime<Utc>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, ToSchema)]
 pub struct DeviceModel {
     pub id: Uuid,
     pub client_id: Uuid,

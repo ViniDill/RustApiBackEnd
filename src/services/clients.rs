@@ -10,7 +10,17 @@ use crate::{
     model::ClientModel,
     AppState,
 };
+#[allow(unused_imports)]
+use utoipa::ToSchema;
 
+#[utoipa::path(
+    request_body = CreateClientSchema,
+    responses(
+        (status = 200, description = "Create a new client.", body = ClientModel),
+        (status = 500, description = "Internal Server error.")
+    ),
+    tag = "Clientes"
+)]
 #[post("/clients")]
 pub async fn create_client(
     body: Json<CreateClientSchema>,
@@ -39,6 +49,13 @@ pub async fn create_client(
     }
 }
 
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Get all clients.", body = [ClientModel]),
+        (status = 500, description = "Internal Server error.")
+    ),
+    tag = "Clientes"
+)]
 #[get("/clients")]
 pub async fn get_all_clients(
     opts: Query<FilterOptions>,
@@ -67,6 +84,14 @@ pub async fn get_all_clients(
     }
 }
 
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Get client by ID.", body = ClientModel),
+        (status = 404, description = "Client not found."),
+        (status = 500, description = "Internal Server error.")
+    ),
+    tag = "Clientes"
+)]
 #[get("/clients/{id}")]
 pub async fn get_client_by_id(
     path: Path<Uuid>,
@@ -92,6 +117,15 @@ pub async fn get_client_by_id(
     }
 }
 
+#[utoipa::path(
+    request_body = UpdateClientSchema,
+    responses(
+        (status = 200, description = "Update client by ID.", body = ClientModel),
+        (status = 404, description = "Client not found."),
+        (status = 500, description = "Internal Server error.")
+    ),
+    tag = "Clientes"
+)]
 #[patch("/clients/{id}")]
 pub async fn update_client_by_id(
     path: Path<Uuid>,
@@ -137,6 +171,14 @@ pub async fn update_client_by_id(
     }
 }
 
+#[utoipa::path(
+    responses(
+        (status = 204, description = "Delete client by ID."),
+        (status = 404, description = "Client not found."),
+        (status = 500, description = "Internal Server error.")
+    ),
+    tag = "Clientes"
+)]
 #[delete("/clients/{id}")]
 pub async fn delete_client_by_id(
     path: Path<Uuid>,
